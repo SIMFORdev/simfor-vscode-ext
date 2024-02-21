@@ -8,7 +8,11 @@ export class SimforExtValues {
             src += " " + sources[i];
         }
 
-        const result: string = "cmake_minimum_required(VERSION 3.21)\n\
+        const result: string = 
+"\n\
+# It's generated file. Change only in advanced mode.\n\
+\n\
+cmake_minimum_required(VERSION 3.21)\n\
 project(" + projectName + ")\n\
 \n\
 set(CMAKE_CXX_STANDARD 17)\n\
@@ -21,7 +25,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC simfor)\n";
     }
 
     static main() {
-        const result: string = "#include <iostream>\n\
+        const result: string = 
+"#include <iostream>\n\
 \n\
 using namespace std;\n\
 \n\
@@ -29,6 +34,28 @@ int main(int argc, char **argv) {\n\
 \tcout << \"Hello simfor\\n\";\n\
 \treturn 0;\n\
 }\n";
+
+        return result;
+    }
+
+    static emptyHeader(moduleName: string) {
+        const includeG = moduleName.toUpperCase() + "_H_";
+        const result: string = 
+"\n\
+#ifndef " + includeG + "\n\
+#define " + includeG + "\n\
+\n\
+#endif /* " + includeG + " */\n";
+    
+        return result;
+    }
+
+    static emptySource(headerName: string) {
+        const result: string = 
+"\n\
+#include \"" + headerName + "\"\n\
+\n\
+";
 
         return result;
     }

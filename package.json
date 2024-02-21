@@ -33,7 +33,7 @@
     "viewsWelcome": [
       {
         "view": "project-files",
-        "contents": "[Create new SIMFOR project](command:simforide.createProject)\n",
+        "contents": "[Create new SIMFOR project](command:simforide.createProject)\n[Create new SIMFOR module](command:simforide.createModule)\n",
         "when": "true"
       }
     ],

@@ -47,11 +47,11 @@ async function collectInfo(): Promise<ProjectConfigInfo | undefined> {
         return;
     }
 
-    const result: ProjectConfigInfo = {
-        name: targetName,
-        isAdvanced: targetType.label === "Advanced",
-    };
     projectPath = targetPath[0].uri.fsPath;
+    let result = new ProjectConfigInfo;
+    result.name = targetName;
+    result.isAdvanced = targetType.label === "Advanced";
+    result.projectPath = projectPath;
 
     return result;
 }
@@ -63,7 +63,9 @@ function createSimpleProject(info: ProjectConfigInfo) {
     const mainFile = SimforExtValues.main();
     Utils.writeDataPath(projectPath + "/main.cpp", mainFile);
 
-    vscode.workspace.fs.createDirectory(vscode.Uri.parse(projectPath + "/src"));
+
+
+    // vscode.workspace.fs.createDirectory(vscode.Uri.parse(projectPath + "/src"));
 }
 
 function createAdvansedProject(info: ProjectConfigInfo) {
@@ -89,5 +91,6 @@ export async function createProject() {
     } else {
         createSimpleProject(info);
     }
+    info.cppFiles.push("main.cpp");
     projectConfig.setConfig(info);
 }
