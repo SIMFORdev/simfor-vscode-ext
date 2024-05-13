@@ -8,8 +8,8 @@ export class SimforExtValues {
             src += " " + sources[i];
         }
 
-        const result: string = 
-"\n\
+        const result: string =
+            "\n\
 # It's generated file. Change only in advanced mode.\n\
 \n\
 cmake_minimum_required(VERSION 3.21)\n\
@@ -25,8 +25,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC simfor)\n";
     }
 
     static main() {
-        const result: string = 
-"#include <iostream>\n\
+        const result: string =
+            "#include <iostream>\n\
 \n\
 using namespace std;\n\
 \n\
@@ -40,23 +40,97 @@ int main(int argc, char **argv) {\n\
 
     static emptyHeader(moduleName: string) {
         const includeG = moduleName.toUpperCase() + "_H_";
-        const result: string = 
-"\n\
+        const result: string =
+            "\n\
 #ifndef " + includeG + "\n\
 #define " + includeG + "\n\
 \n\
 #endif /* " + includeG + " */\n";
-    
+
         return result;
     }
 
     static emptySource(headerName: string) {
-        const result: string = 
-"\n\
+        const result: string =
+            "\n\
 #include \"" + headerName + "\"\n\
 \n\
 ";
 
         return result;
     }
+
+    static mpiLaunchConfiguration(executeName: string, threadsCnt: number, isGDBEnabled: boolean) {
+        const res = {
+            "name": "SIMFOR MPI launch" + (isGDBEnabled) ? " (gdb)" : "",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/bin/mpiexec",
+            "args": [""],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        };
+        if (isGDBEnabled) {
+            res["args"] = [
+                "-n",
+                threadsCnt.toString(),
+                "xterm",
+                "-e",
+                "gdb",
+                "${workspaceFolder}/build/" + executeName.toString()
+            ];
+        } else {
+            res["args"] = [
+                "-n",
+                threadsCnt.toString(),
+                "${workspaceFolder}/build/" + executeName.toString()
+            ];
+        }
+        return res;
+    }
+
+    static defaultLaunchConfiguration(executeName: string) {
+        const res = {
+            "name": "SIMFOR launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/" + executeName.toString(),
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        };
+        return res;
+    }
+
+    static ompLaunchConfiguration(executeName: string) {
+        const res = {
+            "name": "SIMFOR OpenMP launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/" + executeName.toString(),
+            "args": []
+        };
+        return res;
+    }
+
 }

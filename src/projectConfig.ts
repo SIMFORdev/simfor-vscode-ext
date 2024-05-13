@@ -7,19 +7,14 @@ export class ProjectConfigInfo {
     isAdvanced: boolean = false;
     projectPath: string = "";
     cppFiles: string[] = [];
-
-    constructor() {
-        this.name = "";
-        this.isAdvanced = false;
-        this.projectPath = "";
-        this.cppFiles = [];
-
-    }
+    cppCmdArgs: string[] = [];
 }
 
 export class ProjectConfig {
-    private info: ProjectConfigInfo = { name: "", isAdvanced: false, projectPath: "", cppFiles: [] };
+    private info!: ProjectConfigInfo;
     private configFilePath: string = "";
+
+    constructor() { }
 
     async loadConfig() {
         const filePath = (await vscode.workspace.findFiles("**/" + SimforExtValues.configFileName)).at(0);
