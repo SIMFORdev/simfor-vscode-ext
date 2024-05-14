@@ -6,12 +6,20 @@ export class ProjectConfigInfo {
     name: string = "";
     isAdvanced: boolean = false;
     projectPath: string = "";
+    threadsCount: number = 1;
     cppFiles: string[] = [];
     cppCmdArgs: string[] = [];
 }
 
 export class ProjectConfig {
-    private info!: ProjectConfigInfo;
+    private info: ProjectConfigInfo = {
+        name: "",
+        isAdvanced: false,
+        projectPath: "",
+        threadsCount: 1,
+        cppFiles: [""],
+        cppCmdArgs: [""],
+    };
     private configFilePath: string = "";
 
     constructor() { }
@@ -26,7 +34,7 @@ export class ProjectConfig {
             }
             this.info.projectPath = workspaceTarget[0].uri.fsPath;
             this.configFilePath = this.info.projectPath + "/" + SimforExtValues.configFileName;
-            this.writeConfigFile(vscode.Uri.parse(this.configFilePath), JSON.stringify(this.info));
+            this.writeConfigFile(vscode.Uri.parse(this.configFilePath), JSON.stringify(this.info, null, 4));
         } else {
             const result = await this.readConfigFile(filePath);
             this.info = JSON.parse(result) as ProjectConfigInfo;
@@ -37,7 +45,7 @@ export class ProjectConfig {
     async setConfig(config: ProjectConfigInfo) {
         this.loadConfig();
         this.info = config;
-        this.writeConfigFile(vscode.Uri.parse(this.configFilePath), JSON.stringify(this.info));
+        this.writeConfigFile(vscode.Uri.parse(this.configFilePath), JSON.stringify(this.info, null, 4));
     }
 
     getConfig() {
@@ -45,10 +53,10 @@ export class ProjectConfig {
     }
 
     private async readConfigFile(uri: vscode.Uri): Promise<string> {
-        return atob(new TextDecoder().decode(await vscode.workspace.fs.readFile(uri)));
+        return new TextDecoder().decode(await vscode.workspace.fs.readFile(uri));
     }
 
     private async writeConfigFile(uri: vscode.Uri, data: string) {
-        await vscode.workspace.fs.writeFile(uri, new TextEncoder().encode(btoa(data)));
+        await vscode.workspace.fs.writeFile(uri, new TextEncoder().encode(data));
     }
 }

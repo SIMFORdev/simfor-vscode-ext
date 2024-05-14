@@ -1,6 +1,7 @@
 
 export class SimforExtValues {
-    static readonly configFileName: string = ".simforext";
+    static readonly configFileName: string = ".vscode/simforext.json";
+    static readonly launchFileName: string = ".vscode/launch.json";
 
     static cmake(projectName: string, sources: string[]): string {
         let src: string = "";
@@ -61,8 +62,9 @@ int main(int argc, char **argv) {\n\
     }
 
     static mpiLaunchConfiguration(executeName: string, threadsCnt: number, isGDBEnabled: boolean) {
+        const name = (isGDBEnabled) ? "SIMFOR MPI launch (gdb)" : "SIMFOR MPI launch";
         const res = {
-            "name": "SIMFOR MPI launch" + (isGDBEnabled) ? " (gdb)" : "",
+            "name": name,
             "type": "cppdbg",
             "request": "launch",
             "program": "/usr/bin/mpiexec",
@@ -122,13 +124,13 @@ int main(int argc, char **argv) {\n\
         return res;
     }
 
-    static ompLaunchConfiguration(executeName: string) {
+    static ompLaunchConfiguration(executeName: string, threadsCnt: number) {
         const res = {
             "name": "SIMFOR OpenMP launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/" + executeName.toString(),
-            "args": []
+            "args": [""]
         };
         return res;
     }

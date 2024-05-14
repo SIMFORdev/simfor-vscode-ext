@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { ProjectConfig, ProjectConfigInfo } from "./projectConfig";
 import { SimforExtValues } from "./values";
 import * as Utils from "./utils";
+import { refreshConfig } from "./refreshConfig";
 
 let projectPath: string;
 let projectConfig: ProjectConfig;
@@ -84,7 +85,6 @@ export async function createProject() {
 
     projectConfig = new ProjectConfig;
     await projectConfig.loadConfig();
-    // do something
 
     if (info.isAdvanced) {
         createAdvansedProject(info);
@@ -93,4 +93,7 @@ export async function createProject() {
     }
     info.cppFiles.push("main.cpp");
     projectConfig.setConfig(info);
+
+
+    refreshConfig();
 }
