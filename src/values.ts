@@ -18,6 +18,8 @@ project(" + projectName + ")\n\
 \n\
 set(CMAKE_CXX_STANDARD 17)\n\
 \n\
+find_package(simfor REQUIRED)\n\
+\n\
 add_executable(${PROJECT_NAME}" + src + ")\n\
 \n\
 target_link_libraries(${PROJECT_NAME} PUBLIC simfor)\n";

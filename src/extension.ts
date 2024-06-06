@@ -23,9 +23,9 @@ export function activate(context: vscode.ExtensionContext) {
 		"ms-vscode.cmake-tools"
 	];
 
-	for (const ex in recExtension) {
-		installExtension(ex);
-	}
+	recExtension.forEach((item: string, index: number): void => {
+		installExtension(item);
+	});
 
 	context.subscriptions.push(...[
 		vscode.commands.registerCommand('simforide.createProject', () => createProject.createProject()),

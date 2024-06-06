@@ -64,4 +64,6 @@ export async function createProject() {
     await projectConfig.setConfig(info);
 
     await refreshConfig();
+
+    await vscode.commands.executeCommand("cmake.resetState");
 }
