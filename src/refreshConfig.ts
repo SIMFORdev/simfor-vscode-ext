@@ -20,6 +20,6 @@ export async function refreshConfig() {
         ]
     };
 
-    Utils.writeDataPath(config.projectPath + "/" + SimforExtValues.launchFileName, JSON.stringify(res, null, 4));
+    await Utils.writeDataPath(config.projectPath + "/" + SimforExtValues.launchFileName, JSON.stringify(res, null, 4));
 
 }

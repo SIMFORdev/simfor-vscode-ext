@@ -45,7 +45,7 @@ export class ProjectConfig {
     async setConfig(config: ProjectConfigInfo) {
         this.loadConfig();
         this.info = config;
-        this.writeConfigFile(vscode.Uri.parse(this.configFilePath), JSON.stringify(this.info, null, 4));
+        await this.writeConfigFile(vscode.Uri.parse(this.configFilePath), JSON.stringify(config, null, 4));
     }
 
     getConfig() {

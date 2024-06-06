@@ -60,8 +60,7 @@ export async function createProject() {
     createSimpleProject(info);
 
     info.cppFiles.push("main.cpp");
-    console.log(info);
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    
     await projectConfig.setConfig(info);
 
     await refreshConfig();
