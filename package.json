@@ -1,13 +1,17 @@
 {
   "name": "simforide",
   "displayName": "simforide",
-  "description": "",
+  "description": "This is the README for your extension \"simforide\". After writing up a brief description, we recommend including the following sections.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Other"
+  ],
+  "extensionDependencies": [
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.cmake-tools"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
@@ -45,6 +49,10 @@
       {
         "command": "simforide.createModule",
         "title": "Create new SIMFOR moudle"
+      },
+      {
+        "command": "simforide.refreshConfig",
+        "title": "Refresh config file SIMFOR project"
       }
     ]
   },
@@ -57,16 +65,29 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
+    "@playwright/test": "^1.22.2",
     "@types/mocha": "^10.0.3",
     "@types/node": "18.x",
+    "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
-    "eslint": "^8.52.0",
+    "@vscode/test-electron": "^2.3.6",
+    "eslint": "^8.57.0",
     "glob": "^10.3.10",
     "mocha": "^10.2.0",
-    "typescript": "^5.2.2",
-    "@vscode/test-electron": "^2.3.6",
-    "@playwright/test": "^1.22.2"
-  }
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "vscode-test": "^1.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SIMFORdev/simfor-vscode-ext.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SIMFORdev/simfor-vscode-ext/issues"
+  },
+  "homepage": "https://github.com/SIMFORdev/simfor-vscode-ext#readme"
 }

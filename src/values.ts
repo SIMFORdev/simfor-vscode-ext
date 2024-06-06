@@ -130,9 +130,20 @@ int main(int argc, char **argv) {\n\
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/" + executeName.toString(),
-            "args": [""]
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
         };
         return res;
     }
-
 }
