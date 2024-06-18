@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { ProjectConfig, ProjectConfigInfo } from "./projectConfig";
 import { SimforExtValues } from "./values";
 import * as Utils from "./utils";
+import { refreshConfig } from "./refreshConfig";
 
 let projectPath: string;
 let projectConfig: ProjectConfig;
@@ -19,39 +20,12 @@ async function collectInfo(): Promise<ProjectConfigInfo | undefined> {
         return;
     }
 
-    const targetName = await vscode.window.showInputBox({
-        prompt: "Project name",
-        placeHolder: "Project",
-        validateInput: (value: string) => {
-            if (!value.length) {
-                return 'A project name required';
-            }
-            return '';
-        }
-    });
-    if (!targetName) {
-        return;
-    }
-
-    const targetType = (await vscode.window.showQuickPick([
-        {
-            label: "Simple",
-            description: "Generate simple project without cmake manage"
-        },
-        {
-            label: "Advanced",
-            description: "Generate advanced project with manualy cmake manage"
-        }
-    ]));
-    if (!targetType) {
-        return;
-    }
-
-    const result: ProjectConfigInfo = {
-        name: targetName,
-        isAdvanced: targetType.label === "Advanced",
-    };
     projectPath = targetPath[0].uri.fsPath;
+    let result = new ProjectConfigInfo;
+    const splited = projectPath.split('/');
+    result.name = splited[splited.length - 1];
+    result.isAdvanced = false;
+    result.projectPath = projectPath;
 
     return result;
 }
@@ -63,7 +37,7 @@ function createSimpleProject(info: ProjectConfigInfo) {
     const mainFile = SimforExtValues.main();
     Utils.writeDataPath(projectPath + "/main.cpp", mainFile);
 
-    vscode.workspace.fs.createDirectory(vscode.Uri.parse(projectPath + "/src"));
+    // vscode.workspace.fs.createDirectory(vscode.Uri.parse(projectPath + "/src"));
 }
 
 function createAdvansedProject(info: ProjectConfigInfo) {
@@ -82,12 +56,14 @@ export async function createProject() {
 
     projectConfig = new ProjectConfig;
     await projectConfig.loadConfig();
-    // do something
 
-    if (info.isAdvanced) {
-        createAdvansedProject(info);
-    } else {
-        createSimpleProject(info);
-    }
-    projectConfig.setConfig(info);
+    createSimpleProject(info);
+
+    info.cppFiles.push("main.cpp");
+    
+    await projectConfig.setConfig(info);
+
+    await refreshConfig();
+
+    await vscode.commands.executeCommand("cmake.resetState");
 }
