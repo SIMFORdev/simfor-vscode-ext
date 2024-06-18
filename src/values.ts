@@ -18,11 +18,23 @@ project(" + projectName + ")\n\
 \n\
 set(CMAKE_CXX_STANDARD 17)\n\
 \n\
+find_package(Boost 1.84.0 COMPONENTS mpi REQUIRED)\n\
+find_package(OpenMP REQUIRED)\n\
+find_package(MPI REQUIRED)\n\
+find_package(OpenGL REQUIRED)\n\
+find_package(GLUT REQUIRED)\n\
 find_package(simfor REQUIRED)\n\
 \n\
 add_executable(${PROJECT_NAME}" + src + ")\n\
 \n\
-target_link_libraries(${PROJECT_NAME} PUBLIC simfor)\n";
+target_link_libraries(${PROJECT_NAME} PUBLIC \n\
+        simfor\n\
+        ${Boost_LIBRARIES}\n\
+        ${MPI_CXX_LIBRARIES}\n\
+        ${OPENGL_LIBRARIES}\n\
+        ${GLUT_LIBRARY}\n\
+        OpenMP::OpenMP_CXX\n\
+)";
 
         return result;
     }
