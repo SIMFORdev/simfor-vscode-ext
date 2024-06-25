@@ -13,13 +13,15 @@ export async function refreshConfig() {
 
     const res = {
         "configurations": [
-            SimforExtValues.mpiLaunchConfiguration(config.name, config.threadsCount, false),
-            SimforExtValues.mpiLaunchConfiguration(config.name, config.threadsCount, true),
-            SimforExtValues.defaultLaunchConfiguration(config.name),
-            SimforExtValues.ompLaunchConfiguration(config.name, config.threadsCount)
+            SimforExtValues.mpiLaunchConfiguration(config.name, config.threadsCount, config.cppCmdArgs, false),
+            SimforExtValues.mpiLaunchConfiguration(config.name, config.threadsCount, config.cppCmdArgs, true),
+            SimforExtValues.defaultLaunchConfiguration(config.name, config.cppCmdArgs),
+            SimforExtValues.ompLaunchConfiguration(config.name, config.threadsCount, config.cppCmdArgs)
         ]
     };
 
     await Utils.writeDataPath(config.projectPath + "/" + SimforExtValues.launchFileName, JSON.stringify(res, null, 4));
 
+    const cmakeFile = SimforExtValues.cmake(config.name, config.cppFiles);
+    await Utils.writeDataPath(config.projectPath + "/CMakeLists.txt", cmakeFile);
 }

@@ -75,7 +75,7 @@ int main(int argc, char **argv) {\n\
         return result;
     }
 
-    static mpiLaunchConfiguration(executeName: string, threadsCnt: number, isGDBEnabled: boolean) {
+    static mpiLaunchConfiguration(executeName: string, threadsCnt: number, args: string[], isGDBEnabled: boolean) {
         const name = (isGDBEnabled) ? "SIMFOR MPI launch (gdb)" : "SIMFOR MPI launch";
         const res = {
             "name": name,
@@ -115,13 +115,13 @@ int main(int argc, char **argv) {\n\
         return res;
     }
 
-    static defaultLaunchConfiguration(executeName: string) {
+    static defaultLaunchConfiguration(executeName: string, args: string[]) {
         const res = {
             "name": "SIMFOR launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/" + executeName.toString(),
-            "args": [],
+            "args": [""],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
@@ -135,16 +135,17 @@ int main(int argc, char **argv) {\n\
                 }
             ]
         };
+        res["args"] = args;
         return res;
     }
 
-    static ompLaunchConfiguration(executeName: string, threadsCnt: number) {
+    static ompLaunchConfiguration(executeName: string, threadsCnt: number, args: string[]) {
         const res = {
             "name": "SIMFOR OpenMP launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/" + executeName.toString(),
-            "args": [],
+            "args": [""],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
@@ -158,6 +159,7 @@ int main(int argc, char **argv) {\n\
                 }
             ]
         };
+        res["args"] = args;
         return res;
     }
 }
