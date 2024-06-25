@@ -4,7 +4,6 @@ import { SimforExtValues } from "./values";
 
 export class ProjectConfigInfo {
     name: string = "";
-    isAdvanced: boolean = false;
     projectPath: string = "";
     threadsCount: number = 1;
     cppFiles: string[] = [];
@@ -14,7 +13,6 @@ export class ProjectConfigInfo {
 export class ProjectConfig {
     private info: ProjectConfigInfo = {
         name: "",
-        isAdvanced: false,
         projectPath: "",
         threadsCount: 1,
         cppFiles: [""],
