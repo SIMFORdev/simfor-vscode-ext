@@ -38,4 +38,6 @@ export async function createModule() {
     projectConfig.setConfig(info);
     const cmakeFile = SimforExtValues.cmake(info.name, info.cppFiles);
     Utils.writeDataPath(info.projectPath + "/CMakeLists.txt", cmakeFile);
+
+    await vscode.commands.executeCommand("cmake.buildAll");
 }

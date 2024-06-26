@@ -24,4 +24,6 @@ export async function refreshConfig() {
 
     const cmakeFile = SimforExtValues.cmake(config.name, config.cppFiles);
     await Utils.writeDataPath(config.projectPath + "/CMakeLists.txt", cmakeFile);
+
+    await vscode.commands.executeCommand("cmake.buildAll");
 }
