@@ -1,9 +1,9 @@
 # Change Log
 
-All notable changes to the "simforide" extension will be documented in this file.
+## [v.0.0.2]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Первый релиз
 
-## [Unreleased]
+## [v.0.0.3]
 
-- Initial release
+- Добавил пересборку после запуска Refresh simforext.json
